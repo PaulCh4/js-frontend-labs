@@ -27,3 +27,5 @@ Available functions:
     5. In the Not Complited section, yt tasks completed by the user, the execution of which he canceled, will be marked:
             - clear the list of tasks (individually (?) the whole list)
             - uncompleted task items should be highlighted
+
+MockUp: https://www.figma.com/file/PUW18tmYSxTxkr2uHH2b6d/Untitled?t=jzhxwXW2DoWKfLcB-0
