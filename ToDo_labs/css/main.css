@@ -1,0 +1,358 @@
+body{
+    background-color: rgb(233, 226, 161);
+    margin: 0;
+    
+    font-family: Arial, sans-serif;
+}
+#header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px;
+
+    background-color: rgb(125, 162, 187);
+
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+}
+.wrapper{
+    display: flex;
+}
+main{
+    display: flex;
+    align-items: flex-start;
+
+    padding-top: 4.3rem;
+    padding-left: 22rem;
+
+    width: 100%;
+    justify-content: center;
+}
+main section{
+    gap:20px
+}
+.title{
+    text-align: center;
+    font-family: "Lobster Two", cursive;
+    
+    color: rgb(89, 101, 124);
+}
+.title_task{
+    text-align: left;
+    font-family: "Lobster Two", cursive;
+    
+    color: rgb(37, 37, 37);
+}
+.description{
+    font-family: "Indie Flower", cursive;
+    color: rgb(0, 0, 0);
+}
+
+/* ---- IN PROGRESS ---- */
+
+.main__in-progress{
+    background-color: #6f99aa;
+    border-radius: 16px;
+
+    margin: 10px;
+    padding: 10px;
+
+    width:50%;
+}
+#main__in-progress__form{
+    background-color: #d7e7f1;
+    border-radius: 16px;
+
+    margin: 10px;
+    padding: 10px;
+}
+#main__in-progress__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card{
+    display: flex;
+}
+#main__in-progress__footer{
+    display: flex;
+    justify-content: right;
+}
+
+
+/* button {
+    float: right;
+}
+
+                    main > section {
+                        display: inline-block;
+                        max-width: 300px;
+                    }
+                    .create {
+                        background-color: #ffffff;
+                        color: black;
+                    }
+                    section {
+                        padding: 5px;
+                    }
+
+.main__in-progress, complited {
+    background-color: #D9D9D9;
+    border-radius: 16px;
+    margin: 10px;
+    padding: 10px;
+    width:500px;
+}
+.list_block {
+    background-color: #a3a3a3;
+    border-radius: 16px;
+    padding: 10px;
+    margin: 5px;
+}
+h1 {
+    color: black;
+}
+.done {
+    float: right;
+} */
+
+/* ---- CREATE ---- */
+
+#create{
+    background-color: aliceblue;
+    /* border-radius: 0 0 10px;  */
+
+    position: fixed;
+    top: 4.3rem;
+    height: 100%;
+    box-sizing: border-box;
+
+    padding: 20px;
+} 
+#create__header__input{
+    padding: 12px;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    width: 225px;
+
+    border-radius: 4px;
+    border: none;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    font-size: 14px;
+    outline: none;
+}
+#create__footer__input{
+    padding: 12px;
+    margin-right: 12px;
+    width: 225px;
+
+    border-radius: 4px;
+    border: none;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    font-size: 14px;
+    outline: none;
+}
+#create__form .task{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+    color: black;
+    margin-bottom: 12px;
+
+    padding: 12px;
+    border-radius: 4px;
+
+    font-size: 16px;
+    cursor: move;
+}
+#delete{
+    margin-left: auto;
+    max-right: 12px;
+}
+.is-dragging{
+    scale: 1.05;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+    background: rgb(100, 100, 100);
+    color: aliceblue;
+}
+
+
+/* ---- ICONS ---- */
+
+#logout{
+    background-color: rgb(139, 139, 139);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    border-style: solid;
+    border-radius: 50%;
+    border-color:  rgb(139, 139, 139);
+    
+    width: 3rem;
+    height: 3rem;
+
+    cursor: pointer;
+}
+#logout__icon{
+    font-size: 2rem;
+}
+
+#burger-menu{
+    background-color: rgb(139, 139, 139);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    border-style: solid;
+    border-radius: 50%;
+    border-color:  rgb(139, 139, 139);
+    
+    width: 3rem;
+    height: 3rem;
+
+    display: none;
+
+    cursor: pointer;
+}
+#burger-menu__icon{
+    font-size: 2rem;
+}
+
+#add{
+    background-color: rgb(139, 139, 139);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    border-style: solid;
+    border-radius: 50%;
+    border-color:  rgb(139, 139, 139);
+    
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+}
+#add__icon{
+    font-size: 1rem;
+}
+
+#done{
+    background-color: rgb(139, 139, 139);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    border-style: solid;
+    border-radius: 50%;
+    border-color:  rgb(139, 139, 139);
+    
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+}
+#done__icon{
+    font-size: 1rem;
+}
+
+#remove-done{
+    background-color: rgb(139, 139, 139);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    border-style: solid;
+    border-radius: 50%;
+    border-color:  rgb(139, 139, 139);
+    
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+}
+#remove-done__icon{
+    font-size: 1rem;
+}
+
+
+#delete{
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    
+    width: 2rem;
+    height: 2rem;
+}
+#delete__icon{
+    font-size: 1rem;
+}
+#delete__icon:hover{
+    color: brown;
+    cursor: pointer;
+}
+
+#move{
+    background-color: rgb(139, 139, 139);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    border-style: solid;
+    border-radius: 50%;
+    border-color:  rgb(139, 139, 139);
+    
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+}
+#move__icon{
+    font-size: 1rem;
+}
+
+
+/* ---- ANDROID ---- */
+
+@media(max-width: 600px){
+    header {
+        justify-content: space-between;
+    }
+    #logo{
+        order: -1
+    }
+    #logout{
+        order: 1
+    }
+    #burger-menu{
+        display: block;
+        order: -2;
+    } 
+    #create{
+        display: none;
+    }
+    main{
+        display: block;
+
+        padding: 0;
+        padding-top: 4.3rem;
+        
+    }
+
+
+    .main__in-progress{
+        background-color: #6f99aa;
+        border-radius: 16px;
+    
+        margin: 10px;
+        padding: 10px;
+    
+        width: 90%;
+    }
+}
+
+
+/* ---- VALIDATION\ERROR ---- */
+
+#msg{
+    color: red;
+}
+
