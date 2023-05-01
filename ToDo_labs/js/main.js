@@ -8,8 +8,36 @@ let addSubmite = document.getElementById("add");
 let addInput = document.getElementById("create__footer__input");
 
 
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////
+  const updateApp = ()=>{
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            db.collection('users').doc(user.uid).get().then(doc => {
+                if (doc.exists) {
+
+                    dataCards = doc.data().dataCards;
+                    cardsDataFailed = doc.data().cardsDataFailed;
+                    cardsDataComplited = doc.data().cardsDataComplited;
+
+                    createFormCard();
+                    createFormCard_Failed()
+                    createFormCard_Complited()
+                    }
+            });
+        }
+  })
+
+
+}
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
 
 // ---- ADD TO CREATE----
 
@@ -39,20 +67,7 @@ let acceptData = ()=> {
         text: addInput.value
     })
     console.log(data);
-
-
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // Пользователь залогинен
-          console.log("USER!!!!!")
-          console.log(user);
-          console.log(user.uid);
-        } else {
-          // Пользователь не залогинен
-          console.log("Пользователь не залогинен");
-        }
-      });
-
+    
     createTask();
 };
 
@@ -83,6 +98,11 @@ let deletePost = (e)=>{
     data.splice(e.parentElement.id, 1)
     e.parentElement.remove();
 };
+
+
+
+
+
 
 
 
@@ -132,50 +152,102 @@ const moveData = () => {
         checked: checked
     });
 
+
+    auth.onAuthStateChanged(user => {
+        
+        // if (user) {
+        //   // Сохранение данных списка в Firestore для текущего пользователя
+        //   db.collection('users').doc(user.uid).set({
+        //     dataCards: dataCards
+        //   }, { merge: true });
+
+        //   db.collection('users').doc(user.uid).get().then(doc => {
+        //     if (doc.exists) {
+        //       console.log(doc.data());
+        //     }
+        //   });
+        // }
+        
+        if (user) {
+            // Добавление нового элемента в конец списка в Firestore для текущего пользователя
+            db.collection('users').doc(user.uid).update({
+                dataCards: firebase.firestore.FieldValue.arrayUnion(dataCards[dataCards.length - 1])
+            });
+          }
+      });
+    
     console.log(">>" + dataCards[0].checked)
 
     createFormCard();
 }
-
-let createFormCard = ()=>{
-    let cardData = dataCards[dataCards.length - 1];
-
-    cardList.innerHTML += `
-    <form action="" id="main__in-progress__form">
-        <header id="main__in-progress__header">
-            <h3 class="title title_task">${cardData.title}</h3>
-            <button class="remove-done" onClick="doneFailed(this)"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
-        </header>
-
-        <section class="cards cards_in-progress">
-            ${createCard(cardData)}
-        </section>     
-
-        <footer id="main__in-progress__footer">
-            <button class="done" onClick="doneComplited(this)"><i class="material-icons" id="done__icon">done_all</i></button>
-        </footer>    
-    </form>
-    `;
-    
-    clearTaskList()
-    moveInput.value = '';
-    addInput.value = '';
-    data = []
-
-      // !!!!!!!!
-    checkboxLogic()
-}
 let createCard = (cardData)=>{
-    return  cardData.cards.map(card => 
-        `
-        <div class="card" draggable="false">
-            <input type="checkbox" name="option1" value="1" class="">
-            <span class="description">${card.text}</span>
-        </div>
-        `).join("");
-    }
+    return cardData.cards.map((card, index) => {
+        if (cardData.checked[index] === true) {
+            return `
+                <div class="card" draggable="false">
+                    <input type="checkbox" name="option1" value="1" checked> 
+                    <span class="description">${card.text}</span>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="card" draggable="false">
+                    <input type="checkbox" name="option1" value="1" unchecked> 
+                    <span class="description">${card.text}</span>
+                </div>
+            `;
+        }
+    }).join("");
+}
 
+//###FIREBASE
+let createFormCard = () => {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            
 
+            cardList.innerHTML=`<h2 class="title title_in-progress">In Progress</h2>`
+            dataCards.forEach(cardData => {
+                cardList.insertAdjacentHTML('beforeend', `
+                        <form action="" id="main__in-progress__form">
+                            <header id="main__in-progress__header">
+                            <h3 class="title title_task">${cardData.title}</h3>
+                            <button class="remove-done" onClick="doneFailed(this)"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
+                            </header>
+                            <section class="cards cards_in-progress">
+                            ${createCard(cardData)}
+                            </section>
+                            <footer id="main__in-progress__footer">
+                            <button class="done" onClick="doneComplited(this)"><i class="material-icons" id="done__icon">done_all</i></button>
+                            </footer>
+                        </form>
+                `);
+
+                const form = document.querySelector('#main__in-progress__form');
+                const doneButton = form.querySelector('.done');
+                const removeDoneButton = form.querySelector('.remove-done');
+
+                doneButton.addEventListener("click",(e)=>{
+                    e.preventDefault()    
+                })
+                removeDoneButton.addEventListener("click",(e)=>{
+                    e.preventDefault()    
+                    console.log("<!>")
+                })
+
+                doneButton.style.backgroundColor = ''; 
+
+                clearTaskList();
+                moveInput.value = '';
+                addInput.value = '';
+                data = [];
+                
+            });
+            checkboxLogic();
+            
+            }
+        });
+}
 function clearTaskList() {
     const taskList = document.querySelector('.task-list');
 
@@ -185,55 +257,96 @@ function clearTaskList() {
 
 
 
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 // ---- CHECKBOX ----
 
-const updateCardState = (cardIndex, checkboxIndex) => {
-      
-    // cardIndex = cardIndex - 3 //
-    cardIndex = cardIndex
 
-  console.log("dataCards: " + dataCards.checked + " data: " + data + "||"+cardIndex+" "+checkboxIndex)
 
-  dataCards[cardIndex].checked[checkboxIndex] = !dataCards[cardIndex].checked[checkboxIndex];
-}
 
-let checkboxLogic = ()=>{
-    const cardsList = document.querySelectorAll('.cards');
-    console.log(cardList)
-
-    cardsList.forEach((cards, cardIndex) => {
+let checkboxLogic = () => {
+    document.querySelectorAll('.cards_in-progress').forEach((cards) => {
         const checkboxes = cards.querySelectorAll('input[type="checkbox"]');
         const form = cards.parentElement;
-        const doneButton = form.querySelector('.done');
-        const removeDoneButton = form.querySelector('.remove-done');
 
-        checkboxes.forEach((checkbox, checkboxIndex) => {
-            checkbox.addEventListener('click', () => {
-                updateCardState(cardIndex, checkboxIndex);
+        const doneButton = form.querySelector('.done');
+
+        const allChecked = [...checkboxes].every(checkbox => checkbox.checked);
+        if (allChecked) {
+            doneButton.style.backgroundColor = 'white';
+        } else {
+            doneButton.style.backgroundColor = '';
+        }
+
+        checkboxes.forEach((checkbox) => {
+
+
+
+
+            checkbox.addEventListener('click', (e) => {
+                const clickedCard = e.target.closest('.card');
+                if (clickedCard) {
+
+                    const cardsList = document.querySelectorAll('.cards_in-progress');
+                    const clickedCard222 = e.target.closest('.cards_in-progress');
+                    const cardIndex222 = Array.from(cardsList).indexOf(clickedCard222);
+
+                    const cardIndex = Array.from(cards.children).indexOf(clickedCard);
+
+                    const updateCardState = (cardIndex, checkboxIndex) => {
+                        console.log("dataCards: " + dataCards.checked + " data: " + data + "||"+cardIndex+" "+checkboxIndex)
+                     
+                        dataCards[cardIndex].checked[checkboxIndex] = !dataCards[cardIndex].checked[checkboxIndex];
+                        console.log("1||  " + dataCards[0].checked)
+                    }
+                    updateCardState(cardIndex222, cardIndex)
+
+                    console.log("2||  " + dataCards[0].checked)                 
+                    auth.onAuthStateChanged(user => {
+                        if (user) {
+                        db.collection('users').doc(user.uid).set({
+                                dataCards: dataCards
+                            }, { merge: true });
+                        }
+                        console.log("3||  " + dataCards[0].checked)
+                    });
+                }
                 
-                //!!!!!!!!!!!
+
+
+
+
+
+
                 const allChecked = [...checkboxes].every(checkbox => checkbox.checked);
                 if (allChecked) {
                     doneButton.style.backgroundColor = 'white';
-                    //----moveToCompleted
                 } else {
-                    doneButton.style.backgroundColor = ''; // сброс на цвет по умолчанию
+                    doneButton.style.backgroundColor = '';
                 }
-                });
-        });
+            });
 
-        doneButton.addEventListener("click",(e)=>{
-            e.preventDefault()    
-        })
-        removeDoneButton.addEventListener("click",(e)=>{
-            e.preventDefault()    
-            console.log("<!>")
-        })
+
+
+
+            
+        });
     });
 }
-// document.addEventListener("DOMContentLoaded", ()=>{checkboxLogic()})
+
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -246,8 +359,8 @@ let cardListFailed = document.querySelector(".main__failed");
 let doneFailed = ((e)=>{
     console.log(e)
     
-    const cardsList = document.querySelectorAll('.cards');
-    const clickedCard = e.closest('.cards');
+    const cardsList = document.querySelectorAll('#main__in-progress__form');
+    const clickedCard = e.closest('#main__in-progress__form');
     const cardIndex = Array.from(cardsList).indexOf(clickedCard);
 
     moveToFailed(e, cardIndex)
@@ -258,57 +371,54 @@ const moveToFailed = (e, cardIndex) => {
   const cardData = dataCards.splice(cardIndex, 1)[0];
   cardsDataFailed.push(cardData);
 
-  console.log("cardsDataFailed|e: "+e+" |faled: "+cardsDataFailed+"|complited: "+cardsDataCompleted)
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      db.collection('users').doc(user.uid).set({
+            dataCards: dataCards,
+            cardsDataFailed: cardsDataFailed,
+        }, { merge: true });
+      }
+  });
+  
+
+  //console.log("cardsDataFailed|e: "+e+" |faled: "+cardsDataFailed+"|complited: "+cardsDataCompleted)
   e.parentElement.parentElement.remove();
+  createFormCard()
 
   createFormCard_Failed();
 }
+let createFormCard_Failed = () => {
 
-let createFormCard_Failed= ()=>{
-    let cardData = cardsDataFailed[cardsDataFailed.length - 1];
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            
+            
+            cardListFailed.innerHTML=`<h2 class="title title_failed">Failed</h2> `
+            cardsDataFailed.forEach(cardData => {
+                cardListFailed.insertAdjacentHTML('beforeend', 
+                    `
+                    <form action="" id="main__failed__form">
+                        <header id="main__failed__header">
+                            <h3 class="title title_task">${cardData.title}</h3>
+                            <button type="button" class="remove-done" onClick="deleteCards(this)" ><i class="material-icons" id="remove-done__icon">remove</i></button>
+                        </header>
 
-    cardListFailed.innerHTML += `
+                        <section class="cards cards_failed">
+                            ${createCard_Failed(cardData)}
+                        </section>        
+                    </form>
+                `);
+                
 
-        <form action="" id="main__failed__form">
-            <header id="main__failed__header">
-                <h3 class="title title_task">${cardData.title}</h3>
-                <button type="button" class="remove-done" onClick="deleteCards(this)" ><i class="material-icons" id="remove-done__icon">remove</i></button>
-            </header>
+                moveInput.value = '';
+                addInput.value = '';
+            });
 
-            <section class="cards cards_in-progress">
-                ${createCard_Failed(cardData)}
-            </section>        
-        </form>
-    `;
-    
+            
+        }
+    });
+    }
 
-    moveInput.value = '';
-    addInput.value = '';
-
-      // !!!!!!!!
-    checkboxLogic()
-}
-// let createCard_Failed = (cardData)=>{
-//     console.log(":::"+cardData.checked )
-//     if(cardData.checked === true){
-//         return  cardData.cards.map(card => 
-//             `
-//             <div class="card" draggable="false">
-//                 <input type="checkbox" name="option1" value="1" disabled> 
-//                 <span class="description"">${card.text}</span>
-//             </div>
-//             `).join(""); //id="myCheckbox" 
-//     }
-//     else {
-//         return  cardData.cards.map(card => 
-//             `
-//             <div class="card" draggable="false">
-//                 <input type="checkbox" name="option1" value="1" checked disabled> 
-//                 <span class="description" style="color: red;">${card.text}</span>
-//             </div>
-//             `).join(""); //id="myCheckbox" 
-//     }
-// }
 let createCard_Failed = (cardData) => {
     console.log(":::" + cardData.checked);
 
@@ -323,13 +433,22 @@ let createCard_Failed = (cardData) => {
         } else {
             return `
                 <div class="card" draggable="false">
-                    <input type="checkbox" name="option1" value="1" disabled> 
+                    <input type="checkbox" name="option1" value="1" unchecked disabled> 
                     <span class="description" style="color: red;">${card.text}</span>
                 </div>
             `;
         }
     }).join("");
 }
+
+
+    
+
+
+
+
+
+
 
 
 
@@ -345,48 +464,72 @@ let doneComplited = ((e)=>{
     console.log(e)
     
     if(e.style.backgroundColor == 'white'){
-        const cardsList = document.querySelectorAll('.cards');
-        const clickedCard = e.closest('.cards');
+        const cardsList = document.querySelectorAll('#main__in-progress__form');
+        const clickedCard = e.closest('#main__in-progress__form');
         const cardIndex = Array.from(cardsList).indexOf(clickedCard);
-
-        moveToCompleted(e, cardIndex)}
+        
+        console.log("e.closest: " + clickedCard + " Index: "+ cardIndex + " Ca: "+ cardList)
+        console.log(clickedCard)
+        console.log(cardList)
+        moveToComplited(e, cardIndex)
+    }
 })
 
-let cardsDataCompleted = [];
-const moveToCompleted = (e, cardIndex) => {
+let cardsDataComplited = [];
+const moveToComplited = (e, cardIndex) => {
   const cardData = dataCards.splice(cardIndex, 1)[0];
-  cardsDataCompleted.push(cardData);
+  cardsDataComplited.push(cardData);
 
-  console.log(e)
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      db.collection('users').doc(user.uid).set({
+            dataCards: dataCards,
+            cardsDataFailed: cardsDataFailed,
+            cardsDataComplited: cardsDataComplited,
+        }, { merge: true });
+      }
+  });
+
+  //console.log(e)
   e.parentElement.parentElement.remove();
+  createFormCard()
 
   createFormCard_Complited();
 }
 
-let createFormCard_Complited = ()=>{
-    let cardData = cardsDataCompleted[cardsDataCompleted.length - 1];
 
-    cardListComplited.innerHTML += `
+let createFormCard_Complited = () => {
 
-        <form action="" id="main__complited__form">
-            <header id="main__complited__header">
-                <h3 class="title title_task">${cardData.title}</h3>
-                <button type="button" class="remove-done" onClick="deleteCards(this)" ><i class="material-icons" id="remove-done__icon">remove</i></button>
-            </header>
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            
+            
+            cardListComplited.innerHTML=`<h2 class="title title_complited">Complited</h2> `
+            cardsDataComplited.forEach(cardData => {
+                cardListComplited.insertAdjacentHTML('beforeend',
+                `
+                <form action="" id="main__complited__form">
+                    <header id="main__complited__header">
+                        <h3 class="title title_task">${cardData.title}</h3>
+                        <button type="button" class="remove-done" onClick="deleteCards(this)" ><i class="material-icons" id="remove-done__icon">remove</i></button>
+                    </header>
 
-            <section class="cards cards_in-progress">
-                ${createCard_Complited(cardData)}
-            </section>        
-        </form>
-    `;
+                    <section class="cards cards_complited">
+                        ${createCard_Complited(cardData)}
+                    </section>        
+                </form>
+    `       );
     
+            moveInput.value = '';
+            addInput.value = '';
 
-    moveInput.value = '';
-    addInput.value = '';
+        });
 
-      // !!!!!!!!
-    checkboxLogic()
+            
+    }
+});
 }
+
 let createCard_Complited = (cardData)=>{
     return  cardData.cards.map(card => 
         `
@@ -401,12 +544,18 @@ let createCard_Complited = (cardData)=>{
 
 
 
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 // ---- DELETE CARDS FROM _----
 
 let deleteCards = ((e)=>{
-    console.log("deleteCards|e: "+e+" |faled: "+cardsDataFailed+"|complited: "+cardsDataCompleted)
+    //console.log("deleteCards|e: "+e+" |faled: "+cardsDataFailed+"|complited: "+cardsDataCompleted)
     
     if (e.closest('.main__failed')) {
 
@@ -415,6 +564,13 @@ let deleteCards = ((e)=>{
         const cardIndex = Array.from(cardsList).indexOf(clickedCard);
 
         cardsDataFailed.splice(cardIndex, 1)[0];
+        auth.onAuthStateChanged(user => {
+            if (user) {
+              db.collection('users').doc(user.uid).set({
+                cardsDataFailed: cardsDataFailed
+              }, { merge: true });
+            }
+          });
 
     } else if (e.closest('.main__complited')) {
 
@@ -422,14 +578,34 @@ let deleteCards = ((e)=>{
         const clickedCard = e.closest('#main__complited__form');
         const cardIndex = Array.from(cardsList).indexOf(clickedCard);
 
-        cardsDataCompleted.splice(cardIndex, 1)[0];
+        cardsDataComplited.splice(cardIndex, 1)[0];
+        auth.onAuthStateChanged(user => {
+            if (user) {
+              db.collection('users').doc(user.uid).set({
+                dataCards: dataCards,
+                cardsDataFailed: cardsDataFailed,
+                cardsDataComplited: cardsDataComplited,
+              }, { merge: true });
+            }
+          });
     }
 
 
-    console.log("|e: "+e+" |faled: "+cardsDataFailed+"|complited: "+cardsDataCompleted)
+    //console.log("|e: "+e+" |faled: "+cardsDataFailed+"|complited: "+cardsDataCompleted)
     console.log(e)
     e.parentElement.parentElement.remove();
 })
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -497,23 +673,31 @@ const insertAboveTask = (zone, mouseY) => {
 //////////////////////////////////////////////////////////////////
 
 
-
 (()=>{
     // data = JSON.parse(localStorage.getItem("data"))||[];
     // createTask();
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // Пользователь залогинен
-          console.log("USER!!!")
-          console.log(user);
-          console.log(user.uid);
-        } else {
-          // Пользователь не залогинен
-          console.log("Пользователь не залогинен");
-        }
-      });
-})()
+    // firebase.auth().onAuthStateChanged(function(user) {
+    //     if (user) {
+    //       // Пользователь залогинен
+    //       console.log("USER!!!")
+    //       console.log(user);
+    //       console.log(user.uid);
+    //     } else {
+    //       // Пользователь не залогинен
+    //       console.log("Пользователь не залогинен");
+    //     }
+    //   });
 
+      updateApp()
+})()
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+//#######FIREBASE
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 const logOut = () => {
     auth.signOut()
     .then(()=>{
@@ -525,7 +709,6 @@ const logOut = () => {
 
     window.location.assign('auth.html')
   }
-
 
 
 

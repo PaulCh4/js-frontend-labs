@@ -12,12 +12,21 @@ var auth = firebaseApp.auth();
 var usersCollection = db.collection('users');
 
 const register = () => {
-  auth.signOut()
-  .then(()=>{
-      console.log("done log OUT")
+  const email = document.getElementById("email").value
+  const password = document.getElementById("password").value
+
+  console.log(email, password)
+
+  auth.createUserWithEmailAndPassword(email, password)
+  .then((res)=>{
+    console.log(res.user)
+    //window.location.assign('index.html')
   })
   .catch((err)=>{
+    alert(err.code)
 
+    console.log(err.code)
+    console.log(err.message)
   })
 }
 
