@@ -1,0 +1,74 @@
+/* ---- CREATE ---- */
+
+#create{
+    position: fixed;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    white-space: nowrap;
+
+    background-color: aliceblue;
+
+    height: 100%;
+    box-sizing: border-box;
+
+    padding: 85px 20px 0px 20px;
+} 
+#create__header__input{
+    padding: 12px;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    width: 225px;
+
+    border-radius: 4px;
+    border: none;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    font-size: 14px;
+    outline: none;
+
+    background-color: rgb(252, 238, 209);
+}
+#create__footer__input{
+    padding: 12px;
+    margin-right: 12px;
+    width: 225px;
+
+    border-radius: 4px;
+    border: none;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+
+    font-size: 14px;
+    outline: none;
+}
+#create__form .task{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+    color: black;
+    margin-bottom: 12px;
+
+    padding: 12px;
+    border-radius: 4px;
+
+    font-size: 16px;
+    cursor: move;
+}
+#delete{
+    margin-left: auto;
+    /* max-right: 12px; */
+}
+.is-dragging{
+    scale: 1.05;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+    background: rgb(100, 100, 100);
+    color: aliceblue;
+}

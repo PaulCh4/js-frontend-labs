@@ -1,0 +1,34 @@
+.title{
+    text-align: center;
+    font-family: "Lobster Two", cursive;
+
+    padding-right: 10px;
+
+    color: rgb(89, 101, 124);
+}
+
+.title_in-progress{
+    color: rgb(64, 90, 109);
+}
+.title_complited{
+    color: rgb(102, 146, 102);
+}
+.title_failed{
+    color: red
+}
+
+
+
+
+
+.title_task{
+    text-align: left;
+    font-family: "Lobster Two", cursive;
+    text-transform:capitalize;
+    
+    color: rgb(107, 107, 107);
+}
+.description{
+    font-family: "Indie Flower", cursive;
+    color: rgb(0, 0, 0);
+}

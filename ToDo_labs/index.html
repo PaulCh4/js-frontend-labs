@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo</title>
 
+    <link rel="stylesheet" href="css/create.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/icon.css">
+    <link rel="stylesheet" href="css/title.css">
     <!-- icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- lobster, Indie Flower -->
@@ -15,12 +18,11 @@
 </head>
 
 <body>
-    
     <header id="header">
         <button  id="burger-menu"><i onClick="" class="material-icons" id="burger-menu__icon">menu</i>  <!--onClick="" --></button>
         <img src="img/logo.png" alt="" id="logo">
         <!--(?)Search(?)-->
-        <button  id="logout"><i onClick="" class="material-icons" id="logout__icon">logout</i></button>
+        <button  id="logout"><i onClick="logOut()" class="material-icons" id="logout__icon">logout</i></button>
     </header>
 
     <div class="wrapper">
@@ -30,30 +32,28 @@
             <form id="create__form">
     
                 <header id="create__header">
-                    <input type="text" id="create__header__input"> 
-                    <button id="move"><i onClick="" class="material-icons" id="move__icon">done</i></button>
+                    <input type="text" id="create__header__input" maxlength="28" placeholder="Enter some title:"> 
+                    <button id="move"><i onClick="" class="material-icons" id="move__icon">arrow_forward_ios</i></button>
                 </header>
 
                 <section class="task-list">
 
-                    <div class="task" draggable="true">
-                        <input type="checkbox" name="option1" value="1" class="">
+                    <!-- <div class="task" draggable="true">
                         <span class="description">task </span>
-                        <button id="delete"><i onClick="" class="material-icons" id="delete__icon">delete</i></button>
+                        <button id="delete" onClick="deletePost(this)"><i class="material-icons" id="delete__icon">delete</i></button>
                     </div> 
 
                     <div class="task" draggable="true">
-                        <input type="checkbox" name="option1" value="1" class="">
                         <span class="description">FJDILWJALDJLAJDJLAJDA</span>
-                        <button id="delete"><i onClick="" class="material-icons" id="delete__icon">delete</i></button>
-                    </div>    
+                        <button id="delete" onClick="deletePost(this)"><i class="material-icons" id="delete__icon">delete</i></button>
+                    </div>     -->
                     
                     
                 </section>       
 
                 <footer id="create__footer">
-                    <input type="text" id="create__footer__input"> 
-                    <button type="submit" id="add"><i onClick="" class="material-icons" id="add__icon">add</i></button>
+                    <input type="text" id="create__footer__input" maxlength="28" placeholder="Enter some task:""> 
+                    <button id="add"><i onClick="" class="material-icons" id="add__icon">add</i></button>
                     <!-- error -->
                     <div id="msg"></div>
                 </footer> 
@@ -65,13 +65,11 @@
         <main class="main">
 
             <section class="main__in-progress">
-                <h2 class="title">In Progress</h2>
-
-                
-                <form action="" id="main__in-progress__form">
+                <h2 class="title title_in-progress">In Progress</h2>
+                <!-- <form action="" id="main__in-progress__form">
                     <header id="main__in-progress__header">
                         <h3 class="title title_task">Name1</h3>
-                        <button type="submit" id="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
+                        <button type="submit" class="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
                     </header>
 
                     <section class="cards cards_in-progress">
@@ -95,14 +93,14 @@
                     </section>     
     
                     <footer id="main__in-progress__footer">
-                        <button type="submit" id="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
+                        <button type="submit" class="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
                     </footer>    
                 </form>
                 
                 <form action="" id="main__in-progress__form">
                     <header id="main__in-progress__header">
                         <h3 class="title title_task">Name1</h3>
-                        <button type="submit" id="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
+                        <button type="submit" class="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
                     </header>
 
                     <section class="cards cards_in-progress">
@@ -126,14 +124,14 @@
                     </section>     
     
                     <footer id="main__in-progress__footer">
-                        <button type="submit" id="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
+                        <button type="submit" class="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
                     </footer>    
                 </form>
 
                 <form action="" id="main__in-progress__form">
                     <header id="main__in-progress__header">
                         <h3 class="title title_task">Name1</h3>
-                        <button type="submit" id="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
+                        <button type="submit" class="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
                     </header>
 
                     <section class="cards cards_in-progress">
@@ -157,25 +155,21 @@
                     </section>     
     
                     <footer id="main__in-progress__footer">
-                        <button type="submit" id="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
+                        <button type="submit" class="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
                     </footer>    
-                </form>
-
-                
-
+                </form> -->
             </section>
 
-            <section class="main__in-progress">
-                <h2 class="title">In Progress</h2>
 
-                
-                <form action="" id="main__in-progress__form">
-                    <header id="main__in-progress__header">
+            <section class="main__complited">
+                <h2 class="title title_complited">Complited</h2>
+                <!-- <form action="" id="main__complited__form">
+                    <header id="main__complited__header">
                         <h3 class="title title_task">Name1</h3>
-                        <button type="submit" id="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
+                        <button type="submit" class="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
                     </header>
 
-                    <section class="cards cards_in-progress">
+                    <section class="cards cards_complited">
                         
                         <div class="card" draggable="false">
                             <input type="checkbox" name="option1" value="1" class="">
@@ -195,207 +189,57 @@
 
                     </section>     
     
-                    <footer id="main__in-progress__footer">
-                        <button type="submit" id="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
+                    <footer id="main__complited__footer">
+                        <button type="submit" class="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
                     </footer>    
-                </form>
-                
-
-              
+                </form> -->     
             </section>
 
-            <section class="main__in-progress">
-                <h2 class="title">In Progress</h2>
-    
-                
-                <form action="" id="main__in-progress__form">
-                    <header id="main__in-progress__header">
-                        <h3 class="title title_task">Name1</h3>
-                        <button type="submit" id="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
-                    </header>
-    
-                    <section class="cards cards_in-progress">
-                        
-                        <div class="card" draggable="false">
-                            <input type="checkbox" name="option1" value="1" class="">
-                            <span class="description">FJDILWJALDJLAJDJLAJDA</span>
-                        </div>
-                        
-                        <div class="card" draggable="false">
-                            <input type="checkbox" name="option1" value="1" class="">
-                            <span class="description">FJDILWJALDJLAJDJLAJDA</span>
-                        </div>
-    
-                        <div class="card" draggable="false">
-                            <input type="checkbox" name="option1" value="1" class="">
-                            <span class="description">FJDILWJALDJLAJDJLAJDA</span>
-                        </div>
-    
-    
-                    </section>     
-    
-                    <footer id="main__in-progress__footer">
-                        <button type="submit" id="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
-                    </footer>    
-                </form>
-                
-    
-              
-            </section>
-
-            <!-- <section class="in_progress">
-                <h1>In Progress</h1>
-                <div class="list_block">
-                    <form action="">
-                        <h2>Name1</h2>
-                        <button class="удалить вот этот блок заметки">
-                            x
-                            <img src="" alt="">
-                        </button>
-                    </form>
-                    <form action="">
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="(!)вот это, и ТОЛЬКО ТУТ, это чекбокс"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                                Текст1
-                                </span>                                              
-                        </section>      
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="хз должен ли быть это чекбокс или картинка, но если да, то тут он должен быть ненажимабельным"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                            Текст2
-                            </span>                                           
-                        </section>                     
-        
-                        <footer>
-                            <button class="done">
-                                !
-                                <img src="" alt="">
-                            </button>
-                        </footer>    
-                    </form>
-                </div> 
-                <div class="list_block">
-                    <form action="">
-                        <h2>Name2</h2>
-                        <button class="удалить вот этот блок заметки">
-                            x
-                            <img src="" alt="">
-                        </button>
-                    </form>
-                    <form action="">
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="(!)вот это, и ТОЛЬКО ТУТ, это чекбокс"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                                Текст1
-                                </span>                                              
-                        </section>    
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="(!)вот это, и ТОЛЬКО ТУТ, это чекбокс"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                                Текст2
-                                </span>                                              
-                        </section>  
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="хз должен ли быть это чекбокс или картинка, но если да, то тут он должен быть ненажимабельным"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                            Текст3
-                            </span>                                           
-                        </section>                     
-        
-                        <footer>
-                            <button class="done">
-                                !
-                                <img src="" alt="">
-                            </button>
-                        </footer>    
-                    </form>
-                </div>  
-              
-            </section>
-
-            <section class="in_progress">
-                <h1>In Progress</h1>
-                <div class="list_block">
-                    <form action="">
-                        <h2>Name1</h2>
-                        <button class="удалить вот этот блок заметки">
-                            x
-                            <img src="" alt="">
-                        </button>
-                    </form>
-                    <form action="">
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="(!)вот это, и ТОЛЬКО ТУТ, это чекбокс"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                                Текст1
-                                </span>                                              
-                        </section>      
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="хз должен ли быть это чекбокс или картинка, но если да, то тут он должен быть ненажимабельным"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                            Текст2
-                            </span>                                           
-                        </section>                     
-        
-                        <footer>
-                            <button class="done">
-                                !
-                                <img src="" alt="">
-                            </button>
-                        </footer>    
-                    </form>
-                </div> 
-                <div class="list_block">
-                    <form action="">
-                        <h2>Name2</h2>
-                        <button class="удалить вот этот блок заметки">
-                            x
-                            <img src="" alt="">
-                        </button>
-                    </form>
-                    <form action="">
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="(!)вот это, и ТОЛЬКО ТУТ, это чекбокс"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                                Текст1
-                                </span>                                              
-                        </section>    
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="(!)вот это, и ТОЛЬКО ТУТ, это чекбокс"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                                Текст2
-                                </span>                                              
-                        </section>  
-                        <section>
-                            <input type="checkbox" name="option1" value="1" class="хз должен ли быть это чекбокс или картинка, но если да, то тут он должен быть ненажимабельным"> 
-                            <span class="тут вероятно должен быть встовляемый текст в каком-то теге">
-                            Текст3
-                            </span>                                           
-                        </section>                     
-        
-                        <footer>
-                            <button class="done">
-                                !
-                                <img src="" alt="">
-                            </button>
-                        </footer>    
-                    </form>
-                </div>  
-              
-            </section> -->
-
-            <!-- <section class="complited">    
-            </section>
             
-            <section class="not_complited">
-                
-            </section> -->
+            <section class="main__failed">
+                <h2 class="title title_failed">Failed</h2>           
+                <!-- <form action="" id="main__failed__form">
+                    <header id="main__complited__header">
+                        <h3 class="title title_task">Name1</h3>
+                        <button type="submit" class="remove-done"><i onClick="" class="material-icons" id="remove-done__icon">remove_done</i></button>
+                    </header>
+
+                    <section class="cards cards_failed">
+                        
+                        <div class="card" draggable="false">
+                            <input type="checkbox" name="option1" value="1" class="">
+                            <span class="description">FJDILWJALDJLAJDJLAJDA</span>
+                        </div>
+                        
+                        <div class="card" draggable="false">
+                            <input type="checkbox" name="option1" value="1" class="">
+                            <span class="description">FJDILWJALDJLAJDJLAJDA</span>
+                        </div>
+
+                        <div class="card" draggable="false">
+                            <input type="checkbox" name="option1" value="1" class="">
+                            <span class="description">FJDILWJALDJLAJDJLAJDA</span>
+                        </div>
+
+
+                    </section>     
+    
+                    <footer id="main__failed__footer">
+                        <button type="submit" class="done"><i onClick="" class="material-icons" id="done__icon">done_all</i></button>
+                    </footer>    
+                </form> -->    
+            </section>
         </main>
     </div>
 
 
 </body>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+
+<script src="js/auth.js"></script>
+
 <script src="js/main.js"></script>
-<script src="js/drag.js"></script>
+<script src="js/sidebar.js"></script>
 </html>
